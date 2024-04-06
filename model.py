@@ -8,8 +8,8 @@ model_url = 'https://huggingface.co/TheBloke/saiga_mistral_7b-GGUF/resolve/main/
 model_path = "./models/saiga_mistral_7b.Q4_K_M.gguf"
 
 saiga_mistral = LlamaCPP(
-    model_url=model_url,
-    model_path=None,
+    model_url=None,
+    model_path=model_path,
     max_new_tokens=4096,
     context_window=20000,
     generate_kwargs={},
