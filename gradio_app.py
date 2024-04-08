@@ -4,7 +4,6 @@ import requests
 
 conversation = Conversation()
 
-
 def get_stream(text, history):
     s = requests.Session()
     conversation.add_user_message(text)
@@ -28,7 +27,7 @@ demo = gr.ChatInterface(fn=get_stream, examples=["Что такое догово
                                                  "Какие меры предпринимаются для предотвращения риска двойных продаж "
                                                  "недвижимости?",
                                                  "Какие договора не безопасны?"],
-                        title="ДелУчас-бот",
-                        description="Это чат-бот, у которого вы можете спросить информацию о делевом участии в "
+                        title="ДолУчас-бот",
+                        description="Это чат-бот, у которого вы можете спросить информацию о долевом участии в "
                                     "жилищном строительстве в РК")
 demo.launch(debug=True, share=True, server_name="0.0.0.0", server_port=8765)
