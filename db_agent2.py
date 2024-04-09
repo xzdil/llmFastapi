@@ -21,5 +21,5 @@ sql_database = SQLDatabase(engine)
 from llama_index.core.query_engine import NLSQLTableQueryEngine
 
 query_engine = NLSQLTableQueryEngine(
-    sql_database=sql_database, tables=["city_stats"], llm=llm
+    sql_database=sql_database, llm=llm
 )
