@@ -17,9 +17,3 @@ metadata_obj = MetaData()
 
 from llama_index.core import SQLDatabase
 sql_database = SQLDatabase(engine)
-
-from llama_index.core.query_engine import NLSQLTableQueryEngine
-
-query_engine = NLSQLTableQueryEngine(
-    sql_database=sql_database, llm=llm
-)
