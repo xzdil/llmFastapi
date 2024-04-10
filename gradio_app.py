@@ -4,9 +4,9 @@ import requests
 import time
 
 s = requests.Session()
-
+DEFAULT_SYSTEM_PROMPT = "Ты — ИИ ассистент, отвечай на вопросы вежливо и точно"
 def get_stream_llm(text, history):
-    conversation = Conversation()
+    conversation = Conversation(system_prompt=DEFAULT_SYSTEM_PROMPT)
     for user, bot in history:
         print(f'user: {user}')
         print(f'bot: {bot}')
@@ -21,8 +21,10 @@ def get_stream_llm(text, history):
         response += line.decode('utf-8', errors='ignore')
         yield response
 
+DOC_QUERY_SYSTEM_PROMPT = "Ты — Ассистент по договору о долевом участии, отвечай строго по инструкции, если вопрос " \
+                        "задается не о договоре о долевом участии, проси задавать вопросы только по теме."
 def get_stream_query(text, history):
-    conversation = Conversation()
+    conversation = Conversation(system_prompt=DOC_QUERY_SYSTEM_PROMPT)
     for user, bot in history:
         print(f'user: {user}')
         print(f'bot: {bot}')
@@ -37,8 +39,9 @@ def get_stream_query(text, history):
         response += line.decode('utf-8', errors='ignore')
         yield response
 
+SQL_SYSTEM_PROMPT = "Ты ассистент по поиску данных в базе данных SQL, твоя задача писать качественные SQL запросы."
 def get_db_agent(text, history):
-    conversation = Conversation()
+    conversation = Conversation(system_prompt=SQL_SYSTEM_PROMPT)
     for user, bot in history:
         print(f'user: {user}')
         print(f'bot: {bot}')
