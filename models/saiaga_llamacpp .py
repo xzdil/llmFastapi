@@ -4,8 +4,8 @@ from llama_index.llms.llama_cpp.llama_utils import (
     completion_to_prompt
 )
 
-model_url = 'https://huggingface.co/TheBloke/saiga_mistral_7b-GGUF/resolve/main/saiga_mistral_7b.Q4_K_M.gguf'
-model_path = "./models/saiga_mistral_7b.Q4_K_M.gguf"
+model_url = 'https://huggingface.co/TheBloke/saiga_mistral_7b-GGUF/resolve/main/saiga_mistral_7b.Q5_K_S.gguf'
+model_path = "./models/saiga_mistral_7b.Q5_K_S.gguf"
 
 saiga_mistral = LlamaCPP(
     model_url=None,
