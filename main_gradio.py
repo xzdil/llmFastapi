@@ -9,7 +9,7 @@ from llama_index.core import set_global_tokenizer
 from transformers import AutoTokenizer
 from llama_index.core.query_engine import NLSQLTableQueryEngine
 
-from vectorstores.vectorstorefaiss import index
+from vectorstores.vectorstorefaiss import index, embed_model 
 from models.saiga_ollama import llm
 from db_agent2 import sql_database
 
@@ -22,7 +22,7 @@ llms = {}
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     llms["saiga"] = llm
-    llms["query"] = index.as_query_engine(llm=llms["saiga"], streaming=True, similarity_top_k=1)
+    llms["query"] = index.as_query_engine(llm=llms["saiga"],embed_model=embed_model, streaming=True, similarity_top_k=1)
     llms["db_gent"] = NLSQLTableQueryEngine(sql_database=sql_database, llm=llms['saiga'])
     yield
     llms.clear()
