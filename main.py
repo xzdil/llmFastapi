@@ -41,9 +41,19 @@ def run_query(question: str) -> AsyncGenerator:
         yield response
 
 
+def test(question: str) -> AsyncGenerator:
+    for i in range(5):
+        yield question
+
+
 @app.get("/llm")
 async def root(question: str) -> StreamingResponse:
     return StreamingResponse(run_llm(question), media_type="text/event-stream")
+
+
+@app.get("/test")
+async def root(question: str) -> StreamingResponse:
+    return StreamingResponse(test(question), media_type="text/event-stream")
 
 
 @app.get("/query")
