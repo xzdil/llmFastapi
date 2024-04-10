@@ -8,6 +8,7 @@ import gradio as gr
 from llama_index.core import set_global_tokenizer
 from transformers import AutoTokenizer
 from llama_index.core.query_engine import NLSQLTableQueryEngine
+from llama_index.core import Settings
 
 from vectorstores.vectorstorefaiss import index, embed_model 
 from models.saiga_ollama import llm
@@ -17,7 +18,7 @@ set_global_tokenizer(
     AutoTokenizer.from_pretrained("NousResearch/Llama-2-7b-chat-hf").encode
 )
 llms = {}
-
+Settings.embed_model = embed_model
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
