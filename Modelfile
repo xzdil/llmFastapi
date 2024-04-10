@@ -1,0 +1,1 @@
+FROM ./models/saiga_mistral_7b.Q4_K_M.gguf
