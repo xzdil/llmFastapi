@@ -1,7 +1,5 @@
 db_url="postgresql://intern:assa_2023@192.168.10.120:5432/drm"
 
-from test import llm
-
 from sqlalchemy import (
     create_engine,
     MetaData,
@@ -12,7 +10,7 @@ from sqlalchemy import (
     select,
 )
 
-engine = create_engine(url)
+engine = create_engine(db_url)
 metadata_obj = MetaData()
 
 from llama_index.core import SQLDatabase
