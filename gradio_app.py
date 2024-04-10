@@ -51,5 +51,19 @@ def get_db_agent(text, history):
     print(response.text)
     return response.text
     
-demo = gr.ChatInterface(fn=get_stream, examples=["Сколько записей в базе?"],title="SQL бот",description="Бот-ассистент по базе данных")
+db_chat = gr.ChatInterface(fn=get_db_agent, examples=["Сколько записей в базе?"],title="SQL бот",description="Бот-ассистент по базе данных")
+doc_chat = gr.ChatInterface(fn=get_stream_query, examples=["Что такое договор о долевом участии?",
+                                                 "Чем отличается уполномоченная компания от застройщика?",
+                                                 "Как мне себя обезопасить при покупке строящегося жилья?",
+                                                 "Где я могу найти утвержденную форму договора долевого участия?",
+                                                 "Какие действия необходимо совершить дольщику для приобретения жилья "
+                                                 "в строящемся доме?",
+                                                 "Кто гарантирует завершение строительства жилого объекта?",
+                                                 "Какие меры предпринимаются для предотвращения риска двойных продаж "
+                                                 "недвижимости?",
+                                                 "Какие договора не безопасны?"],
+                        title="ДолУчас-бот",
+                        description="Это чат-бот, у которого вы можете спросить информацию о долевом участии в "
+                                    "жилищном строительстве в РК")
+llm_chat = gr.ChatInterface(fn=get_stream_llm, examples=["Привет"],title="Saiga mistral",description="Saiga mistral Q5 Small")
 #demo.launch(debug=True, share=True, server_name="0.0.0.0", server_port=8765)
