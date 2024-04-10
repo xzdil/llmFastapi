@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 from typing import AsyncGenerator
+import gradio as gr
 
 from llama_index.core import set_global_tokenizer
 from transformers import AutoTokenizer
