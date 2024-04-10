@@ -5,7 +5,7 @@ from llama_index.llms.llama_cpp.llama_utils import (
 )
 
 model_url = 'https://huggingface.co/TheBloke/saiga_mistral_7b-GGUF/resolve/main/saiga_mistral_7b.Q5_K_S.gguf'
-model_path = "./models/saiga_mistral_7b.Q5_K_S.gguf"
+model_path = "saiga_mistral_7b.Q5_K_S.gguf"
 
 saiga_mistral = LlamaCPP(
     model_url=None,
