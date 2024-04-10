@@ -9,7 +9,7 @@ from transformers import AutoTokenizer
 from llama_index.llms.llama_cpp import LlamaCPP
 
 from vectorstores.vectorstorefaiss import index
-from model import saiga_mistral
+from models.saiga_ollama import llm
 from db_agent2 import query_engine
 
 set_global_tokenizer(
@@ -20,8 +20,8 @@ llms = {}
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    llms["llama"] = saiga_mistral
-    llms["query"] = index.as_query_engine(llm=llms["llama"], streaming=True, similarity_top_k=1)
+    llms["saiga"] = llm
+    llms["query"] = index.as_query_engine(llm=llms["saiga"], streaming=True, similarity_top_k=1)
     llms["db_gent"] = query_engine
     yield
     llms.clear()
@@ -31,7 +31,7 @@ app = FastAPI(lifespan=lifespan)
 
 
 def run_llm(question: str) -> AsyncGenerator:
-    llm: LlamaCPP = llms["llama"]
+    llm: LlamaCPP = llms["saiga"]
     response_iter = llm.stream_complete(question)
     for response in response_iter:
         yield response.delta
