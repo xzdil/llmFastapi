@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Главная страница</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    .button {
+      display: block;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      padding: 16px 32px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/llm_chat" class="button">Просто LLM</a>
+    <a href="/doc_chat" class="button">ДолУчас бот</a>
+    <a href="/db_chat" class="button">Чат с базой данных</a>
+  </div>
+</body>
+</html>
