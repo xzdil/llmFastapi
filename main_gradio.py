@@ -60,11 +60,12 @@ async def root(question: str) -> StreamingResponse:
 async def root(question: str):
     return run_db_agent(questiom)
 
-from gradio_app import db_chat, doc_chat, llm_chat
+from gradio_app import db_chat, doc_chat, llm_chat, main
 
 app = gr.mount_gradio_app(app, db_chat, path="/db_chat")
 app = gr.mount_gradio_app(app, doc_chat, path="/doc_chat")
 app = gr.mount_gradio_app(app, llm_chat, path="/llm_chat")
+app = gr.mount_gradio_app(app, main, path="/")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
