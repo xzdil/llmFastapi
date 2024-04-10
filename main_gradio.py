@@ -6,11 +6,11 @@ from typing import AsyncGenerator
 
 from llama_index.core import set_global_tokenizer
 from transformers import AutoTokenizer
-from llama_index.llms.llama_cpp import LlamaCPP
+from llama_index.core.query_engine import NLSQLTableQueryEngine
 
 from vectorstores.vectorstorefaiss import index
 from models.saiga_ollama import llm
-from db_agent2 import query_engine
+from db_agent2 import sql_database
 
 set_global_tokenizer(
     AutoTokenizer.from_pretrained("NousResearch/Llama-2-7b-chat-hf").encode
@@ -22,7 +22,7 @@ llms = {}
 async def lifespan(app: FastAPI):
     llms["saiga"] = llm
     llms["query"] = index.as_query_engine(llm=llms["saiga"], streaming=True, similarity_top_k=1)
-    llms["db_gent"] = query_engine
+    llms["db_gent"] = NLSQLTableQueryEngine(sql_database=sql_database, llm=llms['saiga'])
     yield
     llms.clear()
 
@@ -31,7 +31,7 @@ app = FastAPI(lifespan=lifespan)
 
 
 def run_llm(question: str) -> AsyncGenerator:
-    llm: LlamaCPP = llms["saiga"]
+    llm = llms["saiga"]
     response_iter = llm.stream_complete(question)
     for response in response_iter:
         yield response.delta
