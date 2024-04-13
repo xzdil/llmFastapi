@@ -1,4 +1,4 @@
-db_url="postgresql://intern:assa_2023@192.168.10.120:5432/drm"
+db_url="postgresql://intern:password@192.168.10.120:5432/drm"
 
 from sqlalchemy import (
     create_engine,
