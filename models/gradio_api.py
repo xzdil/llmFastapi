@@ -151,9 +151,10 @@ class Gradio_LLM(CustomLLM):
     def complete(
         self, prompt: str, formatted: bool = False, **kwargs: Any
     ) -> CompletionResponse:
-        response = self._model.submit(prompt, api_name="/chat")
-
-        return CompletionResponse(text=response, raw=response)
+        response_iter = self._model.submit(prompt, api_name="/chat")
+        for response in response_iter:
+            text+=response
+        return CompletionResponse(text=text, raw={"text":"text","b":"b"})
 
     @llm_completion_callback()
     def stream_complete(
