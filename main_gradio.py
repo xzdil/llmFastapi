@@ -1,7 +1,8 @@
 import uvicorn
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, HTMLResponse
+
 from typing import AsyncGenerator
 import gradio as gr
 
@@ -12,6 +13,7 @@ from llama_index.core import Settings
 
 from vectorstores.vectorstorefaiss import index, embed_model 
 from models.saiga_ollama import llm
+from models.gradio_api import Gradio_LLM
 from db_agent2 import sql_database
 
 set_global_tokenizer(
@@ -20,17 +22,20 @@ set_global_tokenizer(
 llms = {}
 Settings.embed_model = embed_model
 
+gr_code = ""
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    llms["saiga"] = llm
-    llms["query"] = index.as_query_engine(llm=llms["saiga"],embed_model=embed_model, streaming=True, similarity_top_k=1)
-    llms["db_gent"] = NLSQLTableQueryEngine(sql_database=sql_database, llm=llms['saiga'])
-    yield
+    try: 
+       llms["saiga"] = Gradio_LLM(model_path=f'https://{gr_code}.gradio.live')
+    except:
+       llms["saiga"] = llm
+    llms["query"] = index.as_query_engine(llm=llms["saiga"],embed_model=embed_model, streaming=True, similarity_top_k=1)    
+    llms["db_agent"] = NLSQLTableQueryEngine(sql_database=sql_database, tables=["rental_portfolio"],llm=llms['saiga'],text_>    yield
     llms.clear()
 
 
 app = FastAPI(lifespan=lifespan)
-
 
 def run_llm(question: str) -> AsyncGenerator:
     llm = llms["saiga"]
@@ -48,6 +53,11 @@ def run_db_agent(question: str):
     agent = llms["db_agent"]
     return agent.query(question)
 
+@app.get("/", response_class=HTMLResponse)
+async def read_item():
+    with open("main.html", "r") as file:
+        html_content = file.read()                                                                                            
+    return HTMLResponse(content=html_content)                                                                               o>
 
 @app.get("/llm")
 async def root(question: str) -> StreamingResponse:
@@ -66,7 +76,6 @@ from gradio_app import db_chat, doc_chat, llm_chat, main
 app = gr.mount_gradio_app(app, db_chat, path="/db_chat")
 app = gr.mount_gradio_app(app, doc_chat, path="/doc_chat")
 app = gr.mount_gradio_app(app, llm_chat, path="/llm_chat")
-app = gr.mount_gradio_app(app, main, path="/")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
