@@ -69,25 +69,4 @@ doc_chat = gr.ChatInterface(fn=get_stream_query, examples=["Что такое д
                         description="Это чат-бот, у которого вы можете спросить информацию о долевом участии в "
                                     "жилищном строительстве в РК")
 llm_chat = gr.ChatInterface(fn=get_stream_llm, examples=["Привет"],title="Saiga mistral",description="Saiga mistral Q5 Small")
-
-def button1_click():
-    return gr.open_url("http://localhost:8000/llm_chat")
-
-def button2_click():
-    return gr.open_url("http://localhost:8000/doc_chat")
-
-def button3_click():
-    return gr.open_url("http://localhost:8000/llm_chat")
-
-main = gr.Blocks()
-with main:
-    with gr.Row():
-        button1 = gr.Button("Просто ЛЛМ")
-        button1.click(button1_click)
-        
-        button2 = gr.Button("ДолУчас бот")
-        button2.click(button2_click)
-        
-        button3 = gr.Button("Чат с базой данных")
-        button3.click(button3_click)
 #demo.launch(debug=True, share=True, server_name="0.0.0.0", server_port=8765)
