@@ -39,7 +39,11 @@ def get_stream_query(text, history):
         response += line.decode('utf-8', errors='ignore')
         yield response
 
-SQL_SYSTEM_PROMPT = "Ты ассистент по поиску данных в базе данных SQL, твоя задача писать качественные SQL запросы."
+SQL_SYSTEM_PROMPT = """Ты ассистент для написания Postrgres SQL запросов, твоя задача писать качественные Postgres SQL запросы. 
+Когда используешь условие SELECT и WHERE обязательно заключай колонны в кавычки. 
+Пример правильного запроса: SELECT COUNT("колонна(обязательно в кавычках)") FROM rental_portfolio WHERE "колонна(обязательно в кавычках)" > 'значение';    
+Eсли запрос будет неправильный, то ты будешь уволен! Если запрос будет правильный, ты получишь премию. 
+Обязательно обрати внимание, заключены ли колонны в кавычки."""
 def get_db_agent(text, history):
     conversation = Conversation(system_prompt=SQL_SYSTEM_PROMPT)
     for user, bot in history:
@@ -47,10 +51,10 @@ def get_db_agent(text, history):
         print(f'bot: {bot}')
         conversation.add_user_message(user)
         conversation.add_bot_message(bot)
-    conversation.add_user_message(text)
+    conversation.add_user_message(text+", следи чтобы все колонны в запросе были в кавычках, и в конце запроса после ; не было ничего.")
     prompt = conversation.get_prompt()
     url = f'http://localhost:8000/db_agent?question={prompt}'
-    response = s.get(url).decode('utf-8', errors='ignore')
+    response = s.get(url)
     print(response.text)
     return response.text
     
