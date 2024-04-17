@@ -1,6 +1,6 @@
 # Проект Saiga Mistral with llamaindex
 
-Этот проект представляет собой приложение на FastAPI с интерфейсом, созданным с использованием Gradio.
+Этот проект представляет собой приложение на FastAPI с интерфейсом Gradio.
 В этом проекте я реализоал RAG(retrieval augmented generation), используя библиотеку llama-index.
 В качестве LLM я использовал квантизированную модель Saiga Mistral(https://huggingface.co/TheBloke/saiga_mistral_7b-GGUF)
 
