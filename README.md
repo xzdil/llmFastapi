@@ -7,13 +7,17 @@
 ## Установка
 
 1. Сначала клонируйте репозиторий:
+
 git clone https://github.com/xzdil/llmFastapi
+
 cd llmFastapi
 
-2. Установите зависимости с помощью `pip`:
+3. Установите зависимости с помощью `pip`:
+
 pip install -r requirements.txt
 
-3. Запустите приложение:
+5. Запустите приложение:
+
 uvicorn main_gradio:app --reload --host 0.0.0.0 --port 8000
 
 
