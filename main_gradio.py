@@ -2,7 +2,6 @@ import uvicorn
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse, HTMLResponse
-
 from typing import AsyncGenerator
 import gradio as gr
 
@@ -10,7 +9,6 @@ from llama_index.core import set_global_tokenizer
 from transformers import AutoTokenizer
 from llama_index.core.query_engine import NLSQLTableQueryEngine
 from llama_index.core import Settings
-
 from vectorstores.vectorstorefaiss import index, embed_model 
 from models.saiga_ollama import llm
 from models.gradio_api import Gradio_LLM
@@ -33,7 +31,8 @@ async def lifespan(app: FastAPI):
     except:
        llms["saiga"] = llm
     llms["query"] = index.as_query_engine(llm=llms["saiga"],embed_model=embed_model, streaming=True, similarity_top_k=1)    
-    llms["db_agent"] = NLSQLTableQueryEngine(sql_database=sql_database, tables=["rental_portfolio"],llm=llms['saiga'],text_>    yield
+    llms["db_agent"] = NLSQLTableQueryEngine(sql_database=sql_database, tables=["rental_portfolio"],llm=llms['saiga'],text_>    
+    yield
     llms.clear()
 
 def run_llm(question: str) -> AsyncGenerator:
@@ -74,6 +73,3 @@ app = FastAPI(lifespan=lifespan)
 app = gr.mount_gradio_app(app, db_chat, path="/db_chat")
 app = gr.mount_gradio_app(app, doc_chat, path="/doc_chat")
 app = gr.mount_gradio_app(app, llm_chat, path="/llm_chat")
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
