@@ -16,6 +16,8 @@ from models.saiga_ollama import llm
 from models.gradio_api import Gradio_LLM
 from db_agent2 import sql_database
 
+from gradio_app import db_chat, doc_chat, llm_chat, main
+
 set_global_tokenizer(
     AutoTokenizer.from_pretrained("NousResearch/Llama-2-7b-chat-hf").encode
 )
@@ -33,9 +35,6 @@ async def lifespan(app: FastAPI):
     llms["query"] = index.as_query_engine(llm=llms["saiga"],embed_model=embed_model, streaming=True, similarity_top_k=1)    
     llms["db_agent"] = NLSQLTableQueryEngine(sql_database=sql_database, tables=["rental_portfolio"],llm=llms['saiga'],text_>    yield
     llms.clear()
-
-
-app = FastAPI(lifespan=lifespan)
 
 def run_llm(question: str) -> AsyncGenerator:
     llm = llms["saiga"]
@@ -71,8 +70,7 @@ async def root(question: str) -> StreamingResponse:
 async def root(question: str):
     return run_db_agent(questiom)
 
-from gradio_app import db_chat, doc_chat, llm_chat, main
-
+app = FastAPI(lifespan=lifespan)
 app = gr.mount_gradio_app(app, db_chat, path="/db_chat")
 app = gr.mount_gradio_app(app, doc_chat, path="/doc_chat")
 app = gr.mount_gradio_app(app, llm_chat, path="/llm_chat")
