@@ -22,14 +22,14 @@ set_global_tokenizer(
 llms = {}
 Settings.embed_model = embed_model
 
-from gradio_code import gr_code
+from gradio_code import gr_code, is_local
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    try: 
-       llms["saiga"] = Gradio_LLM(model_path=gr_code)
-    except:
-       llms["saiga"] = llm
+    if is_local:
+        llms["saiga"] = llm
+    else:
+        llms["saiga"] = Gradio_LLM(model_path=gr_code)
     llms["query"] = index.as_query_engine(llm=llms["saiga"],embed_model=embed_model, streaming=True, similarity_top_k=1)    
     llms["db_agent"] = NLSQLTableQueryEngine(sql_database=sql_database, tables=["rental_portfolio"],llm=llms['saiga'],text_>    
     yield
