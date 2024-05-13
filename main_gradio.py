@@ -22,12 +22,12 @@ set_global_tokenizer(
 llms = {}
 Settings.embed_model = embed_model
 
-gr_code = ""
+from gradio_code import gr_code
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     try: 
-       llms["saiga"] = Gradio_LLM(model_path=f'https://{gr_code}.gradio.live')
+       llms["saiga"] = Gradio_LLM(model_path=gr_code)
     except:
        llms["saiga"] = llm
     llms["query"] = index.as_query_engine(llm=llms["saiga"],embed_model=embed_model, streaming=True, similarity_top_k=1)    
