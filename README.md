@@ -18,17 +18,29 @@ cd llmFastapi
 
 pip install -r requirements.txt
 
-<div style="display: flex;">
-  <div style="flex: 1; padding-right: 10px;">
-    <h2>Первая колонка</h2>
-    <p>Текст первой колонки.</p>
-  </div>
-  <div style="flex: 1; padding-left: 10px;">
-    <h2>Вторая колонка</h2>
-    <p>Текст второй колонки.</p>
-  </div>
-</div>
+4. Выберите способ запуска LLM (Локально или на Google colab)
 
+Локально:
+
+Установите ollama: `curl -fsSL https://ollama.com/install.sh | sh`
+
+В папку models загрузите нужную вам модель, например saiga mistral: `wget https://huggingface.co/TheBloke/saiga_mistral_7b-GGUF/resolve/main/saiga_mistral_7b.Q5_K_S.gguf`
+
+Создайте Modelfile для этой модели: 
+
+Для этого используем nano, если не установлен установите: `sudo apt update`
+
+`sudo apt install nano`
+
+Создайте файл: `nano Modelfile`
+
+Впишите путь модели в файл, например: `FROM ./models/saiga_mistral_7b.Q5_K_S.gguf`
+
+Создайте модель из файла Modelfile
+
+`ollama create saiga -f Modelfile`
+
+В файле gradio_code.py укажите `is_local = True`
 
 5. Запустите приложение:
 
