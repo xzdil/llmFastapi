@@ -23,21 +23,27 @@
 Локально:
 
 Установите ollama: 
+
 `curl -fsSL https://ollama.com/install.sh | sh`
 
 В папку models загрузите нужную вам модель, например saiga mistral: 
+
 `wget https://huggingface.co/TheBloke/saiga_mistral_7b-GGUF/resolve/main/saiga_mistral_7b.Q5_K_S.gguf`
 
 Создайте Modelfile для этой модели: 
 
 Для этого используем nano, если не установлен установите: 
+
 `sudo apt update`
 
 `sudo apt install nano`
 
-Создайте файл: `nano Modelfile`
+Создайте файл: 
+
+`nano Modelfile`
 
 Впишите путь модели в файл, например: 
+
 `FROM ./models/saiga_mistral_7b.Q5_K_S.gguf`
 
 Создайте модель из файла Modelfile
