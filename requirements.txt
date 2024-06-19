@@ -7,7 +7,7 @@ llama_index_embeddings_huggingface~=0.2.0
 llama-index-vector-stores-faiss
 faiss_cpu~=1.8.0
 docx2txt~=0.8
-llama-index-llms-ollama
-psycopg2-binary
+llama-index-llms-ollama~=0.1.5
+psycopg2-binary~=2.9.9
 requests~=2.31.0
 gradio~=4.25.0
