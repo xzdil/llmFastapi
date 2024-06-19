@@ -31,7 +31,7 @@ async def lifespan(app: FastAPI):
     else:
         llms["saiga"] = Gradio_LLM(model_path=gr_code)
     llms["query"] = index.as_query_engine(llm=llms["saiga"],embed_model=embed_model, streaming=True, similarity_top_k=1)    
-    llms["db_agent"] = NLSQLTableQueryEngine(sql_database=sql_database, tables=["rental_portfolio"],llm=llms['saiga'],text_>    
+    llms["db_agent"] = NLSQLTableQueryEngine(sql_database=sql_database, tables=["rental_portfolio"],llm=llms['saiga'])   
     yield
     llms.clear()
 
@@ -51,11 +51,13 @@ def run_db_agent(question: str):
     agent = llms["db_agent"]
     return agent.query(question)
 
+app = FastAPI(lifespan=lifespan)
+
 @app.get("/", response_class=HTMLResponse)
 async def read_item():
     with open("main.html", "r") as file:
         html_content = file.read()                                                                                            
-    return HTMLResponse(content=html_content)                                                                               o>
+    return HTMLResponse(content=html_content)                                                                               
 
 @app.get("/llm")
 async def root(question: str) -> StreamingResponse:
@@ -69,7 +71,6 @@ async def root(question: str) -> StreamingResponse:
 async def root(question: str):
     return run_db_agent(questiom)
 
-app = FastAPI(lifespan=lifespan)
 app = gr.mount_gradio_app(app, db_chat, path="/db_chat")
 app = gr.mount_gradio_app(app, doc_chat, path="/doc_chat")
 app = gr.mount_gradio_app(app, llm_chat, path="/llm_chat")
