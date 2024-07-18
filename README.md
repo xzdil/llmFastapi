@@ -14,7 +14,21 @@
 
 `cd llmFastapi`
 
-3. Установите зависимости с помощью `pip`:
+3. Cоздайте среду и установите зависимости с помощью pip:
+
+`sudo apt install -y python3-venvsudo`
+
+`apt install -y build-essential libssl-dev libffi-dev python3-dev`
+
+`python -m venv venv`
+
+Для Linux команда активации среды:
+
+`source venv/bin/activate`
+
+Для Windows команда активации среды:
+
+`venv\Scripts\activate.bat`
 
 `pip install -r requirements.txt`
 
