@@ -30,6 +30,8 @@
 
 `venv\Scripts\activate.bat`
 
+Установите зависимости
+
 `pip install -r requirements.txt`
 
 4. Выберите способ запуска LLM (Локально или на Google colab)
